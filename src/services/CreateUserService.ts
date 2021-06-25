@@ -5,10 +5,11 @@ interface IUserRequest {
   name: string;
   email: string;
   admin?: boolean;
+  password: string;
 }
 
 export class CreateUserService {
-  async execute ({ name, email, admin }:IUserRequest) {
+  async execute ({ name, email, admin, password }:IUserRequest) {
     const usersRepository = getCustomRepository(UsersRepositories)
 
     if (!email) throw new Error('Incorrect Email')
@@ -17,7 +18,7 @@ export class CreateUserService {
 
     if (userAlreadyExists) throw new Error('User already exists')
 
-    const user = usersRepository.create({ name, email, admin })
+    const user = usersRepository.create({ name, email, admin, password })
 
     await usersRepository.save(user)
 
